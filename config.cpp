@@ -76,6 +76,8 @@ class CfgVehicles
 		displayName = "$STR_CfgVehicles_ZenRaidAlarmStation0";
 		descriptionShort = "$STR_CfgVehicles_ZenRaidAlarmStation1";
 		model="ZenDiscordAPI\data\models\RaidAlarm\rack_packed.p3d";
+		hiddenSelections[] = { "texture" };
+		hiddenSelectionsTextures[] = { "ZenDiscordAPI\data\textures\raidalarm\rack_co.paa" };
 		weight = 10000;
 		itemSize[] = { 5,5 };
 		physLayer = "item_small";

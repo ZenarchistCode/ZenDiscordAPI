@@ -58,6 +58,9 @@ class ZenAdminMessagePlugin extends PluginBase
     // Process regular civilian commands
     bool ProcessCommand(notnull PlayerBase player, string command, string text, array<string> params)
     {
+        if (command == "")
+            return false;
+
         if (command == GetZenDiscordConfig().PingAdminCommand)
         {
             string profileName = player.GetIdentity().GetName();

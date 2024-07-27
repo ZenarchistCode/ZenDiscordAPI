@@ -41,7 +41,7 @@ modded class Hologram
 		super.SetProjectionOrientation(orientation);
 	}
 
-	//! SLEEPING BAG
+	//! RAID ALARM
 	override void RefreshVisual()
     {
         super.RefreshVisual();
@@ -86,7 +86,9 @@ modded class Hologram
 				if (itemType == s || entity_for_placing.IsKindOf(s))
 				{
 					ZenRaidAlarmPlugin plugin = ZenRaidAlarmPlugin.Cast(GetPlugin(ZenRaidAlarmPlugin));
-					plugin.AlertNearestRaidStation(entity_for_placing.GetPosition());
+					if (plugin)
+						plugin.AlertNearestRaidStation(entity_for_placing.GetPosition());
+
 					break;
 				}
 			}
