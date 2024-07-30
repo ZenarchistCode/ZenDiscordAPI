@@ -12,6 +12,7 @@ class ZenDiscordConfig
 	ref array<string> KillFeedWebhooks;
 	string ServerName = "HardcoreDayZ";
 	string PingAdminCommand = "admin";
+	string FpsCommand = "fps";
 	string MessageReceived = "Your message has been successfully relayed to the admins. Please be patient for their response.";
 	string JustLoggedIn = "just logged in to";
 	string Explanation = "A player on your watchlist just connected.";

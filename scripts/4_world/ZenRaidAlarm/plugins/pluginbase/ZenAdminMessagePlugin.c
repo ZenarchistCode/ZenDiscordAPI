@@ -61,6 +61,14 @@ class ZenAdminMessagePlugin extends PluginBase
         if (command == "")
             return false;
 
+        // Check admin cmds first
+        if (IsAdmin(player.GetCachedID()))
+        {
+            if (ProcessAdminCommand(player, command, text, params))
+                return true;
+        }
+
+        // !admin command
         if (command == GetZenDiscordConfig().PingAdminCommand)
         {
             string profileName = player.GetIdentity().GetName();
@@ -84,10 +92,6 @@ class ZenAdminMessagePlugin extends PluginBase
 			MsgPlayer(player, GetZenDiscordConfig().MessageReceived);
             return true;
         }
-
-        // Check admin privileges
-        if (IsAdmin(player.GetCachedID()))
-            return ProcessAdminCommand(player, command, text, params);
 
         return false;
     }

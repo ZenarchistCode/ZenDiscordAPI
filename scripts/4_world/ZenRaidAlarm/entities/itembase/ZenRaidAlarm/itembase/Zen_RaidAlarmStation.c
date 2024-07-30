@@ -167,6 +167,9 @@ class Zen_RaidAlarmStation extends ItemBase
 			return false;
 
 		CarBattery battery = GetCarBattery();
+		if (!battery)
+			return false;
+
 		return battery.GetCompEM() && battery.GetCompEM().CanWork();
 	}
 
@@ -314,17 +317,6 @@ class Zen_RaidAlarmStation extends ItemBase
 	///////////////////////////////////////////////////////////////////////
 	//! SERVER-ONLY 
 	///////////////////////////////////////////////////////////////////////
-	override void EOnInit(IEntity other, int extra)
-	{
-		super.EOnInit(other, extra);
-
-#ifdef SERVER
-		if (HasWorkingBaseRadio())
-		{
-			RegisterRaidStation();
-		}
-#endif
-	}
 
 	array<string> GetWebhooks()
 	{
@@ -389,7 +381,9 @@ class Zen_RaidAlarmStation extends ItemBase
 
 	void CheckForValidRadar()
 	{
-		if (!GetRaidAlarmRadar() && m_ZenHadValidRadar)
+		bool checkForRoof = GetZenDiscordConfig().RaidRadarDishCheckRoofTimerMinutes != -1;
+
+		if (!GetRaidAlarmRadar(checkForRoof) && m_ZenHadValidRadar)
 		{
 			InformDisconnection("", true);
 			m_ZenHadValidRadar = false;
@@ -818,6 +812,9 @@ class Zen_RaidAlarmStation extends ItemBase
 
 	void RegisterRaidStation()
 	{
+		if (!HasWorkingBaseRadio())
+			return;
+
 		ZenRaidAlarmPlugin plugin = ZenRaidAlarmPlugin.Cast(GetPlugin(ZenRaidAlarmPlugin));
 		if (plugin)
 			plugin.RegisterRaidStation(this);
@@ -887,6 +884,8 @@ class Zen_RaidAlarmStation extends ItemBase
 	override void AfterStoreLoad()
 	{
 		super.AfterStoreLoad();
+
 		SetAlarmStatus(m_ZenRaidAlarmStatus);
+		RegisterRaidStation();
 	}
 }

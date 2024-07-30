@@ -54,6 +54,7 @@ class Zen_RaidAlarmRadarKit extends DeployableContainer_Base
 		SetIsDeploySound(true);
 		deployedItem.SetPosition(position);
 		deployedItem.SetOrientation(orientation);
+		DeleteSafe();
 	}
 
 	override bool IsBasebuildingKit()
