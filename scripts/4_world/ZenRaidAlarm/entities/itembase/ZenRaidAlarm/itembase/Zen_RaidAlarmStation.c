@@ -230,6 +230,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		super.OnWorkStart();
 
 #ifdef SERVER
+		UpdateBatteryEnergy();
 		RegisterRaidStation();
 #endif
 	}
@@ -239,6 +240,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		super.OnWorkStop();
 
 #ifdef SERVER
+		UpdateBatteryEnergy();
 		UnregisterRaidStation();
 
 		if (m_ZenRoofCheckTimer)
@@ -270,6 +272,7 @@ class Zen_RaidAlarmStation extends ItemBase
 #endif
 
 		//! SERVER ONWORK
+
 		// If radar is required.... well, check for radar
 		if (GetZenDiscordConfig().RaidDiscordAlertRequiresRadar)
 		{
@@ -460,10 +463,17 @@ class Zen_RaidAlarmStation extends ItemBase
 
 	void UpdateBatteryEnergy()
 	{
-		if (!GetCarBattery())
-			return;
+		float energy = 0;
 
-		GetCompEM().SetEnergy0To1(GetCarBattery().GetCompEM().GetEnergy0To1());
+		CarBattery battery = GetCarBattery();
+		if (battery != NULL)
+			energy = battery.GetCompEM().GetEnergy0To1();
+
+		SetQuantity(GetQuantityMax() * energy)
+		GetCompEM().SetEnergy0To1(energy);
+
+		if (energy == 0)
+			GetCompEM().SwitchOff();
 	}
 
 	void ResetRaidAlarm()
@@ -486,7 +496,6 @@ class Zen_RaidAlarmStation extends ItemBase
 	void TurnOnAlarm(string playerName)
 	{
 		m_ManualTurnOnOff = true;
-		UpdateBatteryEnergy();
 		InformConnection(playerName);
 		GetCompEM().SwitchOn();
 		GetCompEM().InteractBranch(this);
@@ -793,7 +802,6 @@ class Zen_RaidAlarmStation extends ItemBase
 			if (radio.GetCompEM() && radio.GetCompEM().IsWorking())
 			{
 				radio.GetCompEM().SwitchOff();
-				UpdateBatteryEnergy();
 			}
 		}
 #endif
