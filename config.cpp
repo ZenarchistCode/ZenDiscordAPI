@@ -169,7 +169,7 @@ class CfgVehicles
 			energyStorageMax=604800; // 1 week of energy from full battery
 			energyUsagePerSecond=1;
 			reduceMaxEnergyByDamageCoef=0.01;
-			energyAtSpawn=604800; // 1 week of energy from full battery
+			energyAtSpawn = 0;
 			powerSocketsCount=1;
 			compatiblePlugTypes[]={2};
 			updateInterval=15;

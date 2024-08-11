@@ -469,7 +469,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		if (battery != NULL)
 			energy = battery.GetCompEM().GetEnergy0To1();
 
-		SetQuantity(GetQuantityMax() * energy)
+		SetQuantity(GetQuantityMax() * energy);
 		GetCompEM().SetEnergy0To1(energy);
 
 		if (energy == 0)
