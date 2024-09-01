@@ -1,0 +1,19 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\scripts",
+    "\\scripts\\3_game",
+    "\\scripts\\3_game\\Discord",
+    "\\scripts\\3_game\\Discord\\Config",
+    "\\scripts\\4_world",
+    "\\scripts\\4_world\\ZenRaidAlarm",
+    "\\scripts\\4_world\\ZenRaidAlarm\\entities",
+    "\\scripts\\4_world\\ZenRaidAlarm\\entities\\itembase",
+    "\\scripts\\4_world\\ZenRaidAlarm\\entities\\itembase\\ZenRaidAlarm",
+    "\\scripts\\4_world\\ZenRaidAlarm\\entities\\itembase\\ZenRaidAlarm\\itembase",
+    "\\scripts\\4_world\\ZenRaidAlarm\\plugins",
+    "\\scripts\\4_world\\ZenRaidAlarm\\plugins\\pluginbase"
+  ],
+  "SelectedNode": "\\scripts\\3_game\\Discord\\Config\\ZenDiscordConfig.c",
+  "PreviewInSolutionExplorer": false
+}

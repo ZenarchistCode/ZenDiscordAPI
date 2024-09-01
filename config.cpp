@@ -160,7 +160,7 @@ class CfgVehicles
 		varQuantityMin = 0;
 		varQuantityMax = 604800; // 1 week of energy from full battery
 		varQuantityDestroyOnMin = 0;
-		stackedUnit = "w";
+		stackedUnit = "percentage";
 		class EnergyManager
 		{
 			hasIcon=1;

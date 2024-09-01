@@ -279,7 +279,7 @@ class Zen_RaidAlarmStation extends ItemBase
 			if (!m_ZenRoofCheckTimer && GetZenDiscordConfig().RaidRadarDishCheckRoofTimerMinutes > 0)
 			{
 				m_ZenRoofCheckTimer = new Timer();
-				m_ZenRoofCheckTimer.Run(GetZenDiscordConfig().RaidRadarDishCheckRoofTimerMinutes * 60, this, "GetRaidAlarmRadar", null, true);
+				m_ZenRoofCheckTimer.Run(GetZenDiscordConfig().RaidRadarDishCheckRoofTimerMinutes * 60, this, "CheckForRoof", NULL, true);
 			}
 
 			// Check discord radar status
@@ -420,6 +420,11 @@ class Zen_RaidAlarmStation extends ItemBase
 		}
 	}
 
+	void CheckForRoof()
+	{
+		GetRaidAlarmRadar(true);
+	}
+
 	bool GetRaidAlarmRadar(bool checkForRoof = true)
 	{
 		// GetPluggedDevice() returns the cable reel
@@ -451,10 +456,14 @@ class Zen_RaidAlarmStation extends ItemBase
 
 		if (m_ZenAttachedRaidRadar)
 		{
-			if (checkForRoof && MiscGameplayFunctions.IsUnderRoof(m_ZenAttachedRaidRadar))
+			if (GetZenDiscordConfig().RaidRadarDishCheckRoofTimerMinutes != -1 && checkForRoof)
 			{
-				m_ZenAttachedRaidRadar = NULL;
-				return false;
+				if (MiscGameplayFunctions.IsUnderRoof(m_ZenAttachedRaidRadar, GameConstants.ROOF_CHECK_RAYCAST_DIST * 2))
+				{
+					InformObstruction();
+					m_ZenAttachedRaidRadar = NULL;
+					return false;
+				}
 			}
 		}
 
@@ -681,6 +690,12 @@ class Zen_RaidAlarmStation extends ItemBase
 			return;
 
 		string footer = playerName;
+		if (footer != "")
+			footer = footer + " | ";
+
+		footer = footer + GetCompEM().GetEnergy0To100() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning;
+
+		// Note: Hard ref is deleted when message is sent. Normally I don't have ref in function scope as it's a bad practice but without it the msg is NULL by the time it gets to DiscordAPI
 		ref ZenDiscordMessage msg = new ZenDiscordMessage(GetZenDiscordConfig().RaidAlarmMessageTitle, true);
 		msg.SetTitle(GetZenDiscordConfig().RaidAlarmMessageTitle);
 		msg.SetMessage(GetZenDiscordConfig().RaidAlarmConnectionOffline + "\n\n" + GetZenDiscordConfig().GetMapLinkPosition(GetPosition(), m_ZenBaseName));
@@ -702,6 +717,7 @@ class Zen_RaidAlarmStation extends ItemBase
 
 		footer = footer + GetCompEM().GetEnergy0To100() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning;
 
+		// Note: Hard ref is deleted when message is sent. Normally I don't have ref in function scope as it's a bad practice but without it the msg is NULL by the time it gets to DiscordAPI
 		ref ZenDiscordMessage msg = new ZenDiscordMessage(GetZenDiscordConfig().RaidAlarmMessageTitle, true);
 		msg.SetTitle(GetZenDiscordConfig().RaidAlarmMessageTitle);
 		msg.SetMessage(GetZenDiscordConfig().RaidAlarmConnectionOnline + "\n\n" + GetZenDiscordConfig().GetMapLinkPosition(GetPosition(), m_ZenBaseName));
@@ -717,6 +733,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		if (!CanSendDiscordMessage())
 			return;
 
+		// Note: Hard ref is deleted when message is sent. Normally I don't have ref in function scope as it's a bad practice but without it the msg is NULL by the time it gets to DiscordAPI
 		ref ZenDiscordMessage msg = new ZenDiscordMessage(GetZenDiscordConfig().RaidAlarmMessageTitle, true);
 		msg.SetTitle(GetZenDiscordConfig().RaidAlarmMessageTitle);
 		msg.SetMessage("" + GetCompEM().GetEnergy0To100() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning + "\n\n" + GetZenDiscordConfig().GetMapLinkPosition(GetPosition(), m_ZenBaseName));
@@ -737,10 +754,26 @@ class Zen_RaidAlarmStation extends ItemBase
 
 		footer = footer + GetCompEM().GetEnergy0To100() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning;
 
+		// Note: Hard ref is deleted when message is sent. Normally I don't have ref in function scope as it's a bad practice but without it the msg is NULL by the time it gets to DiscordAPI
 		ref ZenDiscordMessage msg = new ZenDiscordMessage(GetZenDiscordConfig().RaidAlarmMessageTitle, true);
 		msg.SetTitle(GetZenDiscordConfig().RaidAlarmMessageTitle);
 		msg.SetMessage(GetZenDiscordConfig().RaidAlarmWebhookUpdate + "\n\n" + GetZenDiscordConfig().GetMapLinkPosition(GetPosition(), m_ZenBaseName));
 		msg.SetFooter(footer);
+		msg.SetColor(255, 255, 0);
+		msg.AddWebhooks(GetWebhooks());
+		GetZenDiscordAPI().SendMessage(msg);
+		m_ZenLastDiscordMessageTime = GetGame().GetTime();
+	}
+
+	void InformObstruction()
+	{
+		if (!CanSendDiscordMessage(true))
+			return;
+
+		// Note: Hard ref is deleted when message is sent. Normally I don't have ref in function scope as it's a bad practice but without it the msg is NULL by the time it gets to DiscordAPI
+		ref ZenDiscordMessage msg = new ZenDiscordMessage(GetZenDiscordConfig().RaidAlarmMessageTitle, true);
+		msg.SetTitle(GetZenDiscordConfig().RaidAlarmMessageTitle);
+		msg.SetMessage(GetZenDiscordConfig().RaidAlarmConnectionObstruction + "\n\n" + GetZenDiscordConfig().GetMapLinkPosition(GetPosition(), m_ZenBaseName));
 		msg.SetColor(255, 255, 0);
 		msg.AddWebhooks(GetWebhooks());
 		GetZenDiscordAPI().SendMessage(msg);
@@ -818,6 +851,7 @@ class Zen_RaidAlarmStation extends ItemBase
 			if (!radio.IsLockedInSlot())
 			{
 				radio.LockToParent();
+				UpdateBatteryEnergy();
 			}
 		}
 		else 
