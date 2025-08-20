@@ -455,7 +455,7 @@ class CfgVehicles
 	class Zen_RaidAlarm_GameLabsDummy : HouseNoDestruct
 	{
 		scope = 1;
-		model = "ZenModPack\data\models\woodreserves\zen_woodreserve.p3d";
+		model = "ZenDiscordAPI\data\models\GameLabsDummy\zen_invisible_proxy.p3d";
 	};
 }
 

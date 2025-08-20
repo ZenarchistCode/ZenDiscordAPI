@@ -1,4 +1,4 @@
 enum ZenMenusDiscordAPI
 {
-	RAID_ALARM_GUI = 43761233;
+	RAID_ALARM_GUI = 43761233
 };

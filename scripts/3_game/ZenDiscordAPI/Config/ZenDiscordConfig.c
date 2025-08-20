@@ -4,7 +4,7 @@ class ZenDiscordConfig
 	private const static string zenModFolderPrenested = "$profile:\\Zenarchist\\";
 	private const static string zenModFolder = "$profile:\\Zenarchist\\Utilities\\";
 	private const static string zenConfigName = "ZenDiscordConfig.json";
-	private const static string CURRENT_VERSION = "1";
+	private const static string CURRENT_VERSION = "2";
 	string CONFIG_VERSION = "";
 
 	// Settings data
