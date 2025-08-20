@@ -143,7 +143,7 @@ class ZenDiscordConfig
 		
 		// If any of these items are detected being deployed it will trigger raid alarm
 		ItemsDeployedTriggerRaidAlert = new array<string>;
-		ItemsDeployedTriggerRaidAlert.Insert("HDSN_BreachingCharge");
+		ItemsDeployedTriggerRaidAlert.Insert("HDSN_BreachingChargeBase");
 		ItemsDeployedTriggerRaidAlert.Insert("expansionsatchel");
 		ItemsDeployedTriggerRaidAlert.Insert("plastic_explosive");
 
