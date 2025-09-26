@@ -69,7 +69,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		if (GetCompEM())
 		{
 			// Quantity / energyUsagePerSecond = seconds of energy left.
-			newTooltip = newTooltip + " | " + ZenFunctions.GetTimeToString(GetQuantity() / GetCompEM().GetEnergyUsage(), true, true, false);
+			newTooltip = newTooltip + " | " + ZenDiscordAPIFunctions.GetTimeToString(GetQuantity() / GetCompEM().GetEnergyUsage(), true, true, false);
 		}
 
 		return newTooltip;
