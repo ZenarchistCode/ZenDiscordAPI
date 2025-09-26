@@ -15,6 +15,63 @@ modded class PlayerBase
 		return GetCachedName();
 	}
 
+	override void EEKilled(Object killer)
+	{
+		super.EEKilled(killer);
+
+		if (!GetIdentity() || GetType().Contains("eAI") || GetType().Contains("_Ghost"))
+			return;
+
+		EntityAI killerAI = EntityAI.Cast(killer);
+		if (!killerAI)
+			return;
+
+		// Check player melee kill & guns through HierarchyRootPlayer
+		PlayerBase playerKiller = PlayerBase.Cast(killerAI);
+		if (!playerKiller)
+			playerKiller = PlayerBase.Cast(killerAI.GetHierarchyRootPlayer());
+
+		if (!playerKiller)
+		{
+			// Check for grenades 
+			Grenade_Base grenade = Grenade_Base.Cast(killerAI);
+			if (grenade != NULL)
+				playerKiller = PlayerBase.Cast(grenade.Zen_GetUnpinPlayer());
+
+			// Check for traps 
+			if (!playerKiller)
+			{
+				TrapBase trap = TrapBase.Cast(killerAI);
+				if (trap != NULL)
+					playerKiller = PlayerBase.Cast(trap.Zen_GetPlayerTrapper());
+			}
+
+			// Check for vehicles
+			if (!playerKiller)
+			{
+				CarScript vehicle = CarScript.Cast(killerAI);
+				if (vehicle != NULL)
+				{
+					for (int index = 0; index < vehicle.CrewSize(); index++)
+					{
+						if (vehicle.CrewMember(index) != NULL && vehicle.GetSeatAnimationType(index) == DayZPlayerConstants.VEHICLESEAT_DRIVER)
+							playerKiller = PlayerBase.Cast(vehicle.CrewMember(index));
+					}
+				}
+			}
+
+			//! TODO: ChemGas and projectile explosions/crossbow...
+		}
+
+		if (!playerKiller || !playerKiller.GetIdentity() || playerKiller == this)
+			return;
+
+		if (playerKiller.GetType().Contains("eAI") || playerKiller.GetType().Contains("_Ghost"))
+			return;
+
+		ZenKillFeed(playerKiller, killer);
+	}
+
 	// Send kill feed info
 	void ZenKillFeed(notnull PlayerBase playerKiller, Object object)
 	{
