@@ -1,9 +1,16 @@
+/*
+	(c) 2025 | ZenDiscordAPI | Zenarchist
+
+	Model Credits:
+	https://sketchfab.com/3d-models/old-scifi-satellite-dish-f01a91e9773e4622b25c4d27903e85c6
+	https://sketchfab.com/3d-models/shield-rack-05ab5d8e85c84463b6648d52e1e45b24
+	https://sketchfab.com/3d-models/cardboard-box-1bcef93a72c74e9683720788716ed9a6
+*/
+
 class CfgPatches
 {
 	class ZenDiscordAPI
 	{
-		requiredVersion = 0.1;
-		units[] = {};
 		requiredAddons[] =
 		{
 			"DZ_Data",
@@ -13,46 +20,37 @@ class CfgPatches
 	};
 };
 
-/*
-Model Credits:
-https://sketchfab.com/3d-models/old-scifi-satellite-dish-f01a91e9773e4622b25c4d27903e85c6
-https://sketchfab.com/3d-models/shield-rack-05ab5d8e85c84463b6648d52e1e45b24
-https://sketchfab.com/3d-models/cardboard-box-1bcef93a72c74e9683720788716ed9a6
-*/
-
 class CfgMods
 {
 	class ZenDiscordAPI
 	{
-		dir = "ZenDiscordAPI";
-		picture = "";
-		action = "";
-		hideName = 1;
-		hidePicture = 1;
-		name = "ZenDiscordAPI";
-		credits = "";
 		author = "Zenarchist";
-		authorID = "0";
-		version = "1.0";
-		extra = 0;
 		type = "mod";
-		dependencies[] = { "Game","World","Mission" };
 		class defs
 		{
 			class gameScriptModule
 			{
 				value = "";
-				files[] = { "ZenDiscordAPI/scripts/3_Game" };
+				files[] = 
+				{ 
+					"ZenDiscordAPI/Scripts/3_Game"
+				};
 			};
 			class worldScriptModule
 			{
 				value = "";
-				files[] = { "ZenDiscordAPI/scripts/4_World" };
+				files[] = 
+				{ 
+					"ZenDiscordAPI/Scripts/4_World"
+				};
 			};
 			class missionScriptModule
 			{
 				value = "";
-				files[] = { "ZenDiscordAPI/scripts/5_Mission" };
+				files[] = 
+				{ 
+					"ZenDiscordAPI/Scripts/5_Mission"
+				};
 			};
 		};
 	};
@@ -67,7 +65,7 @@ class CfgVehicles
 	class Megaphone: Inventory_Base
 	{
 		inventorySlot[] += { "ZenMegaphone" };
-	}
+	};
 
 	//! RAID ALARM
 	class Zen_RaidAlarmStationKit : Inventory_Base
@@ -457,7 +455,7 @@ class CfgVehicles
 		scope = 1;
 		model = "ZenDiscordAPI\data\models\GameLabsDummy\zen_invisible_proxy.p3d";
 	};
-}
+};
 
 class CfgNonAIVehicles
 {
@@ -469,14 +467,14 @@ class CfgNonAIVehicles
 		scope = 2;
 		inventorySlot = "Back";
 		model = "ZenDiscordAPI/data/models/RaidAlarm/proxy/zenbaseradio_prox.p3d";
-	}
+	};
 	class Proxyzenmegaphone_prox : ProxyAttachment
 	{
 		scope = 2;
 		inventorySlot = "ZenMegaphone";
 		model = "ZenDiscordAPI/data/models/RaidAlarm/proxy/zenmegaphone_prox.p3d";
-	}
-}
+	};
+};
 
 class CfgSlots
 {
@@ -486,8 +484,8 @@ class CfgSlots
 		name = "ZenMegaphone";
 		displayName = "$STR_CfgVehicles_Megaphone0";
 		ghostIcon = "missing";
-	}
-}
+	};
+};
 
 class CfgSoundShaders
 {
@@ -501,8 +499,8 @@ class CfgSoundShaders
 		{
 			{ "ZenDiscordAPI\data\sounds\raidalarm\alarm", 1 }
 		}; 
-    }
-}
+    };
+};
 
 class CfgSoundSets
 {
@@ -517,6 +515,6 @@ class CfgSoundSets
 		{
 			strength = 500;
 			type = "shot";
-		}
-	}
-}
+		};
+	};
+};

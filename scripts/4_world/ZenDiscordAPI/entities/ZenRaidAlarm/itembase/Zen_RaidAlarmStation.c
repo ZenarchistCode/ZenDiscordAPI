@@ -155,13 +155,19 @@ class Zen_RaidAlarmStation extends ItemBase
 	{
 		super.EEDelete(parent);
 
-#ifndef SERVER
-		if (m_ZenSoundAlarmLoop)
-			m_ZenSoundAlarmLoop.SoundStop();
-
-		if (m_ZenBlinkingLight)
-			m_ZenBlinkingLight.Destroy();
-#endif
+		if (GetGame().IsClient())
+		{
+			if (m_ZenSoundAlarmLoop)
+				m_ZenSoundAlarmLoop.SoundStop();
+	
+			if (m_ZenBlinkingLight)
+				m_ZenBlinkingLight.Destroy();
+		}
+		
+		if (GetGame().IsDedicatedServer())
+		{
+			InformDisconnection("", true);
+		}
 	}
 
 	int GetAlarmStatus()
@@ -585,7 +591,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		if (!CanSendDiscordMessage())
 			return;
 
-		string footer = "" + GetCompEM().GetEnergy0To100() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning;
+		string footer = "" + GetZenEnergyCorrected() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning;
 		ZenDiscordMessage msg = new ZenDiscordMessage(GetZenDiscordConfig().RaidAlarmMessageTitle, true);
 		msg.SetTitle(GetZenDiscordConfig().RaidAlarmMessageTitle);
 		msg.SetMessage(GetZenDiscordConfig().RaidAlarmAttackMessage + "\n\n" + GetZenDiscordConfig().GetMapLinkPosition(GetPosition(), m_ZenBaseName));
@@ -751,7 +757,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		if (footer != "")
 			footer = footer + " | ";
 
-		footer = footer + GetCompEM().GetEnergy0To100() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning;
+		footer = footer + GetZenEnergyCorrected() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning;
 
 		// Note: Hard ref is deleted when message is sent. Normally I don't have ref in function scope as it's a bad practice but without it the msg is NULL by the time it gets to DiscordAPI
 		ref ZenDiscordMessage msg = new ZenDiscordMessage(GetZenDiscordConfig().RaidAlarmMessageTitle, true);
@@ -773,7 +779,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		if (footer != "")
 			footer = footer + " | ";
 
-		footer = footer + GetCompEM().GetEnergy0To100() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning;
+		footer = footer + GetZenEnergyCorrected() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning;
 
 		// Note: Hard ref is deleted when message is sent. Normally I don't have ref in function scope as it's a bad practice but without it the msg is NULL by the time it gets to DiscordAPI
 		ref ZenDiscordMessage msg = new ZenDiscordMessage(GetZenDiscordConfig().RaidAlarmMessageTitle, true);
@@ -794,7 +800,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		// Note: Hard ref is deleted when message is sent. Normally I don't have ref in function scope as it's a bad practice but without it the msg is NULL by the time it gets to DiscordAPI
 		ref ZenDiscordMessage msg = new ZenDiscordMessage(GetZenDiscordConfig().RaidAlarmMessageTitle, true);
 		msg.SetTitle(GetZenDiscordConfig().RaidAlarmMessageTitle);
-		msg.SetMessage("" + GetCompEM().GetEnergy0To100() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning + "\n\n" + GetZenDiscordConfig().GetMapLinkPosition(GetPosition(), m_ZenBaseName));
+		msg.SetMessage("" + GetZenEnergyCorrected() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning + "\n\n" + GetZenDiscordConfig().GetMapLinkPosition(GetPosition(), m_ZenBaseName));
 		msg.SetColor(255, 165, 0);
 		msg.AddWebhooks(GetWebhooks());
 		GetZenDiscordAPI().SendMessage(msg);
@@ -810,7 +816,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		if (footer != "")
 			footer = footer + " | ";
 
-		footer = footer + GetCompEM().GetEnergy0To100() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning;
+		footer = footer + GetZenEnergyCorrected() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning;
 
 		// Note: Hard ref is deleted when message is sent. Normally I don't have ref in function scope as it's a bad practice but without it the msg is NULL by the time it gets to DiscordAPI
 		ref ZenDiscordMessage msg = new ZenDiscordMessage(GetZenDiscordConfig().RaidAlarmMessageTitle, true);
@@ -1011,5 +1017,10 @@ class Zen_RaidAlarmStation extends ItemBase
 		super.AfterStoreLoad();
 
 		SetAlarmStatus(m_ZenRaidAlarmStatus);
+	}
+	
+	int GetZenEnergyCorrected()
+	{
+		return (int)Math.Round(GetCompEM().GetEnergy0To1() * 100);
 	}
 }

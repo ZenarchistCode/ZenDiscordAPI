@@ -1,34 +1,5 @@
 modded class VehicleBattery
 {
-	/*
-	TEMPORARY VANILLA BUGFIX: https://feedback.bistudio.com/T183055
-
-	All I did was add check for BaseRadio. TODO: Remove this code if it's no longer needed?
-	*/
-
-	/*
-	override bool CanPutIntoHands(EntityAI parent)
-	{
-		if (HasEnergyManager())
-		{
-			ItemBase poweredDevice = ItemBase.Cast(GetCompEM().GetPluggedDevice());
-			if (poweredDevice && (poweredDevice.IsInherited(MetalWire) || poweredDevice.IsInherited(BaseRadio)))
-				return true;
-		}
-
-		return super.CanPutIntoHands(parent);
-	}
-
-	override bool CanPutInCargo(EntityAI parent)
-	{
-		ItemBase poweredDevice = ItemBase.Cast(GetCompEM().GetPluggedDevice());
-		if (poweredDevice != NULL && poweredDevice.IsInherited(BaseRadio))
-			return true;
-
-		return super.CanPutInCargo(parent);
-	}
-	*/
-
 	//! UPDATE RAID STATION ENERGY WHEN BATTERY IS ATTACHED TO BASE RADIO
 	override void OnWasAttached(EntityAI parent, int slot_id)
 	{

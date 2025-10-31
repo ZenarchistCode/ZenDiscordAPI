@@ -50,6 +50,8 @@ class ZenDiscordConfig
 	string RaidAlarmBatteryWarning = "Battery Charge";
 	bool BaseDamageTriggersRaidAlert = true;
 	bool BaseDismantleTriggersRaidAlert = true;
+	bool ItemDamageTriggersRaidAlert = true;
+	ref array<string> ItemsDamagedDetect;
 	ref array<string> RaidAlarmBuildTools;
 	ref array<string> RaidAlarmDismantleTools;
 	ref array<string> ItemsDeployedTriggerRaidAlert;
@@ -64,6 +66,8 @@ class ZenDiscordConfig
 
 		if (GetGame().IsClient())
 			return;
+		
+		SetDefaultValues();
 
 		if (FileExist(zenModFolder + zenConfigName))
 		{
@@ -87,6 +91,7 @@ class ZenDiscordConfig
 			}
 			else
 			{
+				FixNewValues();
 				Save();
 
 				// Convert all arrays to lower case 
@@ -119,10 +124,16 @@ class ZenDiscordConfig
 		}
 
 		CONFIG_VERSION = CURRENT_VERSION;
-
-		SetDefaultValues();
-
 		Save();
+	}
+	
+	void FixNewValues()
+	{
+		if (!ItemsDamagedDetect || ItemsDamagedDetect.Count() == 0)
+		{
+			ItemsDamagedDetect = new array<string>;
+			ItemsDamagedDetect.Insert("BaseBuilding"); // RA Basebuilding
+		}
 	}
 
 	void SetDefaultValues()
@@ -140,6 +151,9 @@ class ZenDiscordConfig
 		AdminWebhooks.Insert("https://discord.com/api/webhooks/1263661792194728040/AEWqPnfHW8h8sIJuFBKsjW1mtOHFANXtWQVh3oquwcevG0aO2CyowmP4IQuKLqOFHJno");
 		KillFeedWebhooks.Insert("https://discord.com/api/webhooks/1015532391575592970/YDLhQjuwSxVagEnTR2jLRVCeNBK415gtfoCPIUrHlxXSjHcrLSbJEH2F2KLhc5aGXETm");
 		PlayerWatchlist.Set("4s_12UDE-PKYemc7adlZyKGVSrwzIMW0T32Q69CerkE=", "Example reason they're on watchlist - potential cheater, accused by multiple players etc");
+		
+		ItemsDamagedDetect = new array<string>;
+		ItemsDamagedDetect.Insert("BaseBuilding");
 		
 		// If any of these items are detected being deployed it will trigger raid alarm
 		ItemsDeployedTriggerRaidAlert = new array<string>;
