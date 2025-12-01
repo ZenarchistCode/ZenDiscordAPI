@@ -102,18 +102,18 @@ modded class PlayerBase
 		if (victimPlayMinutes > 60)
 			victimAge = victimAge + (victimPlayMinutes / 60) + " " + GetZenDiscordConfig().Hours;
 		else
-			victimAge = victimAge + (victimPlayMinutes)+" " + GetZenDiscordConfig().Minutes;
+			victimAge = victimAge + (victimPlayMinutes) + " " + GetZenDiscordConfig().Minutes;
 
 		if (killerPlayerMinutes > 60)
 			killerAge = killerAge + (killerPlayerMinutes / 60) + " " + GetZenDiscordConfig().Hours;
 		else
-			killerAge = killerAge + (killerPlayerMinutes)+" " + GetZenDiscordConfig().Minutes;
+			killerAge = killerAge + (killerPlayerMinutes) + " " + GetZenDiscordConfig().Minutes;
 
 		string discordMsg = killerText + " " + GetZenDiscordConfig().Killed + " ";
 		discordMsg = discordMsg + victimText + " " + GetZenDiscordConfig().With + " " + weaponText + " " + distance + "m ";
 		if (GetZenDiscordConfig().DisplayKillLocation)
 			discordMsg = discordMsg + location + " ";
-		discordMsg = discordMsg + "\n\n" + victimAge + "\n" + killerAge;
+		discordMsg = discordMsg + "\n\n" + victimAge + "\n" + killerAge + "\nKiller HP: " + playerKiller.GetHealth();
 
 		if (GetZenDiscordConfig().DisplayPlayerSteamID)
 		{

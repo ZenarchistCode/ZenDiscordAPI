@@ -34,7 +34,7 @@ class ActionTurnOnZenRaidAlarm: ActionInteractBase
 
 		if (station.GetCompEM().CanWork())
 		{
-			station.TurnOnAlarm(action_data.m_Player.GetIdentity().GetName());
+			station.TurnOnAlarm(action_data.m_Player.GetCachedName());
 
 			if (!station.HasValidWebhook())
 			{

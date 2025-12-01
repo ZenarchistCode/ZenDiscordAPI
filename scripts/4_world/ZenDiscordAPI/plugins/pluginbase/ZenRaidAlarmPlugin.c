@@ -91,7 +91,7 @@ class ZenRaidAlarmPlugin extends PluginBase
                 PlayerBase pb = PlayerBase.Cast(man);
                 if (pb != NULL && vector.Distance(objectPos, pb.GetPosition()) <= GetZenDiscordConfig().RaidDetectionDistance)
                 {
-                    playersInvolved = playersInvolved + "[" + pb.GetIdentity().GetName() + "](http://steamcommunity.com/profiles/" + pb.GetIdentity().GetPlainId() + ")" + " (" + pb.GetIdentity().GetId() + ")\n";
+                    playersInvolved = playersInvolved + "[" + pb.GetCachedName() + "](http://steamcommunity.com/profiles/" + pb.GetIdentity().GetPlainId() + ")" + " (" + pb.GetIdentity().GetId() + ")\n";
                     playersInvolvedCount++;
                 }
             }

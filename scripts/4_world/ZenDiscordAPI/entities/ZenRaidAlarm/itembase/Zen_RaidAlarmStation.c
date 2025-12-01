@@ -598,7 +598,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		msg.SetFooter(footer);
 		msg.SetColor(255, 0, 0);
 		msg.AddWebhooks(GetWebhooks());
-		GetZenDiscordAPI().SendMessage(msg);
+		GetZenDiscordAPI().SendMessage(msg, GetPosition());
 		m_ZenLastDiscordMessageTime = GetGame().GetTime();
 	}
 
@@ -766,7 +766,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		msg.SetFooter(footer);
 		msg.SetColor(255, 255, 0);
 		msg.AddWebhooks(GetWebhooks());
-		GetZenDiscordAPI().SendMessage(msg);
+		GetZenDiscordAPI().SendMessage(msg, GetPosition());
 		m_ZenLastDiscordMessageTime = GetGame().GetTime();
 	}
 
@@ -788,7 +788,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		msg.SetFooter(footer);
 		msg.SetColor(0, 255, 0);
 		msg.AddWebhooks(GetWebhooks());
-		GetZenDiscordAPI().SendMessage(msg);
+		GetZenDiscordAPI().SendMessage(msg, GetPosition());
 		m_ZenLastDiscordMessageTime = GetGame().GetTime();
 	}
 
@@ -803,7 +803,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		msg.SetMessage("" + GetZenEnergyCorrected() + "% " + GetZenDiscordConfig().RaidAlarmBatteryWarning + "\n\n" + GetZenDiscordConfig().GetMapLinkPosition(GetPosition(), m_ZenBaseName));
 		msg.SetColor(255, 165, 0);
 		msg.AddWebhooks(GetWebhooks());
-		GetZenDiscordAPI().SendMessage(msg);
+		GetZenDiscordAPI().SendMessage(msg, GetPosition());
 		m_ZenLastDiscordMessageTime = GetGame().GetTime();
 	}
 
@@ -825,7 +825,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		msg.SetFooter(footer);
 		msg.SetColor(255, 255, 0);
 		msg.AddWebhooks(GetWebhooks());
-		GetZenDiscordAPI().SendMessage(msg);
+		GetZenDiscordAPI().SendMessage(msg, GetPosition());
 		m_ZenLastDiscordMessageTime = GetGame().GetTime();
 	}
 
@@ -840,7 +840,7 @@ class Zen_RaidAlarmStation extends ItemBase
 		msg.SetMessage(GetZenDiscordConfig().RaidAlarmConnectionObstruction + "\n\n" + GetZenDiscordConfig().GetMapLinkPosition(GetPosition(), m_ZenBaseName));
 		msg.SetColor(255, 255, 0);
 		msg.AddWebhooks(GetWebhooks());
-		GetZenDiscordAPI().SendMessage(msg);
+		GetZenDiscordAPI().SendMessage(msg, GetPosition());
 		m_ZenLastDiscordMessageTime = GetGame().GetTime();
 	}
 

@@ -22,7 +22,7 @@ modded class MissionServer
 		if (GetZenDiscordConfig().PlayerWatchlist.Find(identity.GetId(), reason))
 		{
 			ZenDiscordMessage playerWatchlistMsg = new ZenDiscordMessage("Watchlist");
-			playerWatchlistMsg.SetTitle(identity.GetName() + " " + GetZenDiscordConfig().JustLoggedIn + " " + GetZenDiscordConfig().ServerName);
+			playerWatchlistMsg.SetTitle(player.GetCachedName() + " " + GetZenDiscordConfig().JustLoggedIn + " " + GetZenDiscordConfig().ServerName);
 			playerWatchlistMsg.SetMessage(GetZenDiscordConfig().Explanation + "\n\n" + reason + "\n\n" + GetZenDiscordConfig().GetMapLinkPosition(player.GetPosition()) + "\n\n" + identity.GetId() + "\n\n[" + identity.GetPlainId() + "](http://steamcommunity.com/profiles/" + identity.GetPlainId() + ")");
 			playerWatchlistMsg.SetColor(255, 255, 0);
 

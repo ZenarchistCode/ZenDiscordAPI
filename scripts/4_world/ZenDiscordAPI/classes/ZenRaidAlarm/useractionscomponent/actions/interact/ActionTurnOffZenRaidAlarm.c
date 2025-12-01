@@ -21,6 +21,6 @@ class ActionTurnOffZenRaidAlarm: ActionInteractBase
 	{
 		Zen_RaidAlarmStation station = Zen_RaidAlarmStation.Cast(action_data.m_Target.GetObject());
 		if (station)
-			station.TurnOffAlarm(action_data.m_Player.GetIdentity().GetName());
+			station.TurnOffAlarm(action_data.m_Player.GetCachedName());
 	}
 }

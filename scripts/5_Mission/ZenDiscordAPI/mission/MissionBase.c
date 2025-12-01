@@ -72,7 +72,14 @@ modded class MissionBase
 
             if (sender && data.param1 && data.param2)
             {
-                data.param2.SetWebhooks(data.param1, sender.GetName());
+				string playerName = "Survivor";
+				PlayerBase pb = PlayerBase.Cast(sender.GetPlayer());
+				if (pb)
+				{
+					playerName = pb.GetCachedName();
+				}
+				
+                data.param2.SetWebhooks(data.param1, playerName);
                 data.param2.SetBaseName(data.param3);
             }
         }

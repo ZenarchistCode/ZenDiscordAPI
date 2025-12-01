@@ -8,9 +8,7 @@ class ZenAdminMessagePlugin extends PluginBase
         Print("[ZenAdminMessagePlugin] Received admin command: " + text + " from: " + identity.GetId());
 
         // Get player object
-        int highBits, lowBits;
-		GetGame().GetPlayerNetworkIDByIdentityID(identity.GetPlayerId(), lowBits, highBits);
-		PlayerBase player = PlayerBase.Cast(GetGame().GetObjectByNetworkId(lowBits, highBits));
+		PlayerBase player = PlayerBase.Cast(identity.GetPlayer());
         if (!player)
         {
             Error("[ZenDiscordAPI] Failed to retrieve player network object in ZenAdminMessagePlugin.c from uid -> " + identity.GetId());
@@ -71,7 +69,7 @@ class ZenAdminMessagePlugin extends PluginBase
         // !admin command
         if (command == GetZenDiscordConfig().PingAdminCommand)
         {
-            string profileName = player.GetIdentity().GetName();
+            string profileName = player.GetCachedName();
             string uid = player.GetCachedID();
             string steamid = player.GetIdentity().GetPlainId();
             string from = "[" + profileName + "](http://steamcommunity.com/profiles/" + steamid + ")\n" + uid + "\n" + steamid;
